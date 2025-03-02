@@ -1,4 +1,4 @@
 package com.example.auction.User;
 
-public class UserRepository {
+public interface UserRepository {
 }
