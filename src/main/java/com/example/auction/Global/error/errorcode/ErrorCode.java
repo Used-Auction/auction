@@ -19,6 +19,7 @@ public enum ErrorCode {
 
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
     RESOURCES_NOT_FOUND(NOT_FOUND, "해당 리소트 값을 찾을 수 없습니다."),
+    PRODUCT_NOT_FOUND(NOT_FOUND,"해당 제품을 찾을 수 없습니다."),
 
 
     /* 409 CONFLICT : Resource 의 현재 상태와 충돌. 보통 중복된 데이터 존재 */
