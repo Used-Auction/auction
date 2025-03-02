@@ -12,6 +12,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
+
     /**
      *
      * @param loginUserId 로그인 유저 식별자
@@ -23,7 +24,6 @@ public class ProductService {
         Product saveProduct = productRepository.save(product);
         return ProductResponseDto.toDto(saveProduct);
     }
-
     /**
      *
      * @param productId 상품식별자
