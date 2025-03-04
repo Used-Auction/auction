@@ -46,4 +46,17 @@ public class ProductService {
         productRepository.save(findProduct);
         return ProductResponseDto.toDto(findProduct);
     }
+
+    /**
+     *
+     * @param productId 상품식별자
+     * @return ProductResponseDto {@link ProductResponseDto}
+     */
+    public ProductResponseDto deleteProduct (Long productId){
+        Product findProduct = productRepository.findByIdOrElseThrow(productId);
+        findProduct.deleteProduct();
+        productRepository.save(findProduct);
+        return ProductResponseDto.toDto(findProduct);
+    }
+
 }
