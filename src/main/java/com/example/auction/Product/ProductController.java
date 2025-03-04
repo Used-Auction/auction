@@ -40,4 +40,13 @@ public class ProductController {
                         productService.updateProduct(productId,requestDto)));
     }
 
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<CommonResponseBody<ProductResponseDto>> deleteProduct(
+            @PathVariable Long productId){
+        return ResponseEntity.ok().
+                body(new CommonResponseBody<>("상품 비활성화" ,
+                        productService.deleteProduct(productId)));
+
+    }
+
 }

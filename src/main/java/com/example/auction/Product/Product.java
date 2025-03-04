@@ -45,4 +45,8 @@ public class Product extends BaseEntity {
         this.image = requestDto.getImage();
     }
 
+    public void deleteProduct(){
+        this.productStatus = ProductStatus.DELETED;
+    }
+
 }
