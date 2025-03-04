@@ -46,6 +46,7 @@ public class ProductController {
         return ResponseEntity.ok().
                 body(new CommonResponseBody<>("상품 비활성화" ,
                         productService.deleteProduct(productId)));
+
     }
 
 }
