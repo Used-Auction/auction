@@ -2,7 +2,6 @@ package com.example.auction.Product;
 
 import com.example.auction.Global.BaseEntity;
 import com.example.auction.Product.Dto.ProductRequestDto;
-import com.example.auction.User.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -27,6 +26,10 @@ public class Product extends BaseEntity {
     @Column(columnDefinition = "varchar(320)" )
     private String image;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private ProductStatus productStatus = ProductStatus.ACTIVE;
+
     public Product(){}
 
     public Product(Long userId , ProductRequestDto requestDto){
@@ -34,6 +37,16 @@ public class Product extends BaseEntity {
         this.name = requestDto.getName();
         this.content = requestDto.getContent();
         this.image = requestDto.getImage();
+    }
+
+    public void updateProduct(ProductRequestDto requestDto){
+        this.name = requestDto.getName();
+        this.content = requestDto.getContent();
+        this.image = requestDto.getImage();
+    }
+
+    public void deleteProduct(){
+        this.productStatus = ProductStatus.DELETED;
     }
 
 }
