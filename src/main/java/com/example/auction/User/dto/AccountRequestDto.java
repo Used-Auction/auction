@@ -28,21 +28,15 @@ public class AccountRequestDto {
   @NotBlank(message = "password는 빈 값이 허용되지 않습니다.")
   private final String password;
 
-  @NotBlank(message = "name은 빈 값이 허용되지 않습니다.")
-  private final String name;
-
-  @NotBlank(message = "phoneNumber는 빈 값이 허용되지 않습니다.")
-  private final String phoneNumber;
   /**
    * 생성자.
    *
    * @param email    이메일
    * @param password 암호
    */
-  public AccountRequestDto(String email, String password, String name, String phoneNumber) {
+  public AccountRequestDto(String email, String password) {
     this.email = email;
     this.password = password;
-    this.name = name;
-    this.phoneNumber = phoneNumber;
+
   }
 }

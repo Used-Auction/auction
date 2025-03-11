@@ -54,8 +54,6 @@ public class AccountService {
 
     this.userRepository.save(new User(
             accountRequest.getEmail(),
-            accountRequest.getName(),
-            accountRequest.getPassword(),
             passwordEncoder.encode(accountRequest.getPassword()),
             Role.of(role)
     ));

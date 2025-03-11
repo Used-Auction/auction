@@ -31,11 +31,9 @@ public class User{
 
     private String status;
 
-    public User(String email, String password, String name, String phoneNumber, Role role) {
+    public User(String email, String password, Role role) {
         this.email = email;
         this.password = password;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
         this.role = role;
     }
 }
