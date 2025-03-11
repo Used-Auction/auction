@@ -12,8 +12,6 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import java.io.IOException;
 
 /**
- * create on 2024. 12. 23. create by IntelliJ IDEA.
- *
  * <p> 인가 실패를 처리하는 핸들러 재정의. </p>
  *
  * @author Seokgyu Hwang (Chris)

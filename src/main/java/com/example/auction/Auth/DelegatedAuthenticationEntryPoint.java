@@ -1,5 +1,6 @@
 package com.example.auction.Auth;
 
+import com.example.auction.Global.error.handler.GlobalExceptionHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,10 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 /**
- * create on 2024. 12. 21. create by IntelliJ IDEA.
- *
  * <p>인증 실패에 대한 응답을 구성.</p>
- * <p>{@link com.sparta.nbcamp7lecturespringsecurityh2.exception.GlobalExceptionHandler}에 정의.</p>
+ * <p>{@link GlobalExceptionHandler}에 정의.</p>
  *
  * @author Seokgyu Hwang (Chris)
  * @version 1.0

@@ -10,8 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * create on 2024. 12. 21. create by IntelliJ IDEA.
- *
  * <p> {@link UserDetailsService}의 구현체 클래스. </p>
  *
  * @author Seokgyu Hwang (Chris)

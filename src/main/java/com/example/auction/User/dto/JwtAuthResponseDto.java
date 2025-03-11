@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
-public class JwtAuthResponse {
+public class JwtAuthResponseDto {
 
   /**
    * access token 인증 방식.
@@ -30,7 +30,7 @@ public class JwtAuthResponse {
   /**
    * 생성자.
    */
-  public JwtAuthResponse(String tokenAuthScheme, String accessToken) {
+  public JwtAuthResponseDto(String tokenAuthScheme, String accessToken) {
     this.tokenAuthScheme = tokenAuthScheme;
     this.accessToken = accessToken;
   }
