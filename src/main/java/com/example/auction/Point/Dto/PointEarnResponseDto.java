@@ -7,13 +7,11 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class PointResponseDto {
+public class PointEarnResponseDto {
 
     private final Long id;
 
     private final Long userId;
-
-    private final Long auctionId;
 
     private final PointReason reason;
 
@@ -25,10 +23,9 @@ public class PointResponseDto {
 
     private final LocalDateTime updatedAt;
 
-    public PointResponseDto(Long id, Long userId, Long auctionId, PointReason reason, int usePoint, int totalPoint, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public PointEarnResponseDto(Long id, Long userId, PointReason reason, int usePoint, int totalPoint, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.userId = userId;
-        this.auctionId = auctionId;
         this.reason = reason;
         this.usePoint = usePoint;
         this.totalPoint = totalPoint;
@@ -36,11 +33,10 @@ public class PointResponseDto {
         this.updatedAt = updatedAt;
     }
 
-    public static PointResponseDto toDto(Point point){
-        return new PointResponseDto(
+    public static PointEarnResponseDto toDto(Point point){
+        return new PointEarnResponseDto(
                 point.getId(),
                 point.getUserId(),
-                point.getAuction().getId(),
                 point.getReason(),
                 point.getUsePoint(),
                 point.getTotalPoint(),
