@@ -21,8 +21,8 @@ public class ProductService {
      */
     public ProductResponseDto addProduct (Long loginUserId , ProductRequestDto requestDto){
         Product product = new Product(loginUserId , requestDto);
-        Product saveProduct = productRepository.save(product);
-        return ProductResponseDto.toDto(saveProduct);
+        productRepository.save(product);
+        return ProductResponseDto.toDto(product);
     }
     /**
      * 상품 단건조회
