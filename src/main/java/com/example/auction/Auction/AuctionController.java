@@ -1,6 +1,5 @@
 package com.example.auction.Auction;
 
-
 import com.example.auction.Auction.Dto.AuctionRequestDto;
 import com.example.auction.Auction.Dto.AuctionResponseDto;
 import com.example.auction.Global.CommonResponseBody;
