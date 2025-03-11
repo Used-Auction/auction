@@ -1,6 +1,5 @@
 package com.example.auction.Product.Dto;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
