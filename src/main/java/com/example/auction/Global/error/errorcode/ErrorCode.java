@@ -11,6 +11,8 @@ import static org.springframework.http.HttpStatus.*;
 public enum ErrorCode {
     /* 400 BAD_REQUEST : 잘못된 요청 */
     BAD_REQUEST_RESOURCE(BAD_REQUEST, "잘못된 리소스 값을 입력했습니다."),
+    EXPIRED_ERROR(BAD_REQUEST,"경매 만료기한은 등록일 기준 최소 3일 후부터 가능합니다."),
+    POINT_NOT_ENOUGH(BAD_REQUEST,"포인트가 충분하지 않습니다."),
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
 
@@ -20,6 +22,8 @@ public enum ErrorCode {
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
     RESOURCES_NOT_FOUND(NOT_FOUND, "해당 리소트 값을 찾을 수 없습니다."),
     PRODUCT_NOT_FOUND(NOT_FOUND,"해당 상품을 찾을 수 없습니다."),
+    AUCTION_NOT_FOUND(NOT_FOUND,"해당 경매를 찾을 수 없습니다."),
+    POINT_NOT_FOUND(NOT_FOUND,"해당 포인트를 찾을 수 없습니다."),
 
 
 
