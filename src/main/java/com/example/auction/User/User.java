@@ -13,6 +13,8 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String email;
+
     private String password;
 
     private String name;
@@ -21,7 +23,21 @@ public class User extends BaseEntity {
 
     private Long point;
 
-    private String roll;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     private String status;
+
+    public User() {
+    }
+
+    public User(String email, String password, String name, String phoneNumber, Long point, Role role, String status) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.point = point;
+        this.role = role;
+        this.status = status;
+    }
 }
