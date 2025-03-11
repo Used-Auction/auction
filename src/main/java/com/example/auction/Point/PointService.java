@@ -6,6 +6,7 @@ import com.example.auction.Global.error.errorcode.ErrorCode;
 import com.example.auction.Global.error.exception.CustomException;
 import com.example.auction.Point.Dto.PointEarnResponseDto;
 import com.example.auction.Point.Dto.PointResponseDto;
+import com.example.auction.Product.Dto.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,13 @@ public class PointService {
     private final PointRepository pointRepository;
     private final AuctionRepository auctionRepository;
 
+    /**
+     * <p>경매 입찰 포인트 계산</p>
+     * @param loginUserId  사용자 식별자
+     * @param auctionId  경매 식별자
+     * @param usePoint  사용된 point
+     * @return PointResponseDto {@link PointResponseDto}
+     */
     public PointResponseDto bidPoint (Long loginUserId , Long auctionId , int usePoint){
 
         Auction findAuction = auctionRepository.findByIdOrElseThrow(auctionId);
@@ -35,6 +43,12 @@ public class PointService {
         return PointResponseDto.toDto(point);
     }
 
+    /**
+     * <p>포인트 적립</p>
+     * @param userId 사용자 식별자
+     * @param earnPoint 적립되는 포인트
+     * @return PointEarnResponseDto {@link PointEarnResponseDto}
+     */
     public PointEarnResponseDto earnPoint (Long userId , int earnPoint){
 
         int totalPoint = earnPoint + lastTotalPoint(userId);
@@ -43,6 +57,11 @@ public class PointService {
         return PointEarnResponseDto.toDto(point);
     }
 
+    /**
+     * <p>해당 사용자의 마지막 total point 추출</p>
+     * @param userId 사용자 식별자
+     * @return int
+     */
     private int lastTotalPoint(Long userId){
 
         Optional<Integer> lastTotalPoint = pointRepository.findByLastTotalPoint(userId);
