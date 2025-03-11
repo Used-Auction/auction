@@ -1,7 +1,7 @@
 package com.example.auction.Auth;
 
-import com.example.auction.User.User;
-import com.example.auction.User.UserRepository;
+import com.example.auction.User.entity.User;
+import com.example.auction.User.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;

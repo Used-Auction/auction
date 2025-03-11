@@ -2,7 +2,6 @@ package com.example.auction.Product;
 
 import com.example.auction.Product.Dto.ProductRequestDto;
 import com.example.auction.Product.Dto.ProductResponseDto;
-import com.example.auction.User.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

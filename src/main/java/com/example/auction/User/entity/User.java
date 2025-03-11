@@ -1,4 +1,4 @@
-package com.example.auction.User;
+package com.example.auction.User.entity;
 
 import com.example.auction.Global.BaseEntity;
 import jakarta.persistence.*;

@@ -1,4 +1,4 @@
-package com.example.auction.User;
+package com.example.auction.User.entity;
 
 import lombok.Getter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,7 +1,7 @@
 package com.example.auction.Auth;
 
-import com.example.auction.User.Role;
-import com.example.auction.User.User;
+import com.example.auction.User.entity.Role;
+import com.example.auction.User.entity.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
