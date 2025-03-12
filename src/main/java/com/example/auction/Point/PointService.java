@@ -6,7 +6,7 @@ import com.example.auction.Global.error.errorcode.ErrorCode;
 import com.example.auction.Global.error.exception.CustomException;
 import com.example.auction.Point.Dto.PointEarnResponseDto;
 import com.example.auction.Point.Dto.PointResponseDto;
-import com.example.auction.Product.Dto.ProductResponseDto;
+import com.example.auction.User.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,48 +21,45 @@ public class PointService {
 
     /**
      * <p>경매 입찰 포인트 계산</p>
-     * @param loginUserId  사용자 식별자
+     * @param loginUserId  로그인유저식별자
      * @param auctionId  경매 식별자
      * @param usePoint  사용된 point
-     * @return PointResponseDto {@link PointResponseDto}
      */
-    public PointResponseDto bidPoint (Long loginUserId , Long auctionId , int usePoint){
+    public void bidPoint (Long loginUserId , Long auctionId , int usePoint){
 
-        Auction findAuction = auctionRepository.findByIdOrElseThrow(auctionId);
         int totalPoint = lastTotalPoint(loginUserId)-usePoint;
         if (lastTotalPoint(loginUserId) < usePoint){
             throw new CustomException(ErrorCode.POINT_NOT_ENOUGH);
         }
         Point point = new Point(loginUserId
-                ,findAuction
+                ,auctionId
                 ,PointReason.AUCTION_BID
                 ,-usePoint
                 ,totalPoint);
         pointRepository.save(point);
-
-        return PointResponseDto.toDto(point);
     }
 
     /**
      * <p>포인트 적립</p>
-     * @param userId 사용자 식별자
+     * @param loginUserId 로그인유저식별자
      * @param earnPoint 적립되는 포인트
      * @return PointEarnResponseDto {@link PointEarnResponseDto}
      */
-    public PointEarnResponseDto earnPoint (Long userId , int earnPoint){
+    public PointEarnResponseDto earnPoint (Long loginUserId , int earnPoint){
 
-        int totalPoint = earnPoint + lastTotalPoint(userId);
-        Point point = new Point(userId,PointReason.EARN,earnPoint,totalPoint);
+        int totalPoint = earnPoint + lastTotalPoint(loginUserId);
+        Point point = new Point(loginUserId,PointReason.EARN,earnPoint,totalPoint);
         pointRepository.save(point);
         return PointEarnResponseDto.toDto(point);
     }
 
+
     /**
-     * <p>해당 사용자의 마지막 total point 추출</p>
+     * <p>해당 사용자의 마지막 total_point 추출</p>
      * @param userId 사용자 식별자
-     * @return int
+     * @return int 해당 사용자의 마지막 total_point
      */
-    private int lastTotalPoint(Long userId){
+    public int lastTotalPoint(Long userId){
 
         Optional<Integer> lastTotalPoint = pointRepository.findByLastTotalPoint(userId);
         if (lastTotalPoint.isPresent()){

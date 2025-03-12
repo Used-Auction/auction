@@ -40,7 +40,7 @@ public class PointResponseDto {
         return new PointResponseDto(
                 point.getId(),
                 point.getUserId(),
-                point.getAuction().getId(),
+                point.getAuctionId(),
                 point.getReason(),
                 point.getUsePoint(),
                 point.getTotalPoint(),

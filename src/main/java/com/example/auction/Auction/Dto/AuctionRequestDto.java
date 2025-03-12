@@ -1,7 +1,6 @@
 package com.example.auction.Auction.Dto;
 
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

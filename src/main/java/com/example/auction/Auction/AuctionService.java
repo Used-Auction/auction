@@ -23,8 +23,7 @@ public class AuctionService {
     public AuctionResponseDto aadAuction (Long loginUserId , AuctionRequestDto requestDto){
 
         validExpiredAt(requestDto.getExpiredAt());
-        Product findProduct = productRepository.findByIdOrElseThrow(requestDto.getProductId());
-        Auction auction = new Auction(loginUserId , findProduct , requestDto);
+        Auction auction = new Auction(loginUserId , requestDto.getProductId() , requestDto);
         auctionRepository.save(auction);
         return AuctionResponseDto.toDto(auction);
     }
