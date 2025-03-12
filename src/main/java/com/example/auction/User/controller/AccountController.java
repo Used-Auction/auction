@@ -39,9 +39,7 @@ public class AccountController {
    * 회원가입.
    *
    * @param dto {@link AccountRequestDto}
-   * @param role           권한
-   * @return {@code ResponseEntity<CommonResponseBody<String>>}
-   */
+   * @param accountRequestDto {@link AccountRequestDto}
   @PostMapping("/join")
   public ResponseEntity<CommonResponseBody<String>> join(
       @Valid @RequestBody JoinRequestDto dto,

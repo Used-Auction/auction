@@ -42,6 +42,7 @@ public class AccountService {
    * 이메일이 중복되지 않으면 가입처리.
    *
    * @param dto {@link AccountRequestDto}
+
    * @param role           {@link Role}
    * @throws DuplicateKeyException 입력받은 이메일에 대한 사용자가 이미 있을 경우
    */
