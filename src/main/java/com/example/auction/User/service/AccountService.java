@@ -4,6 +4,7 @@ package com.example.auction.User.service;
 import com.example.auction.Global.util.AuthenticationScheme;
 import com.example.auction.Global.util.JwtProvider;
 import com.example.auction.User.dto.AccountRequestDto;
+import com.example.auction.User.dto.JoinRequestDto;
 import com.example.auction.User.dto.JwtAuthResponseDto;
 import com.example.auction.User.entity.Role;
 import com.example.auction.User.entity.User;
@@ -40,22 +41,24 @@ public class AccountService {
   /**
    * 이메일이 중복되지 않으면 가입처리.
    *
-   * @param accountRequest {@link AccountRequestDto}
+   * @param dto {@link AccountRequestDto}
    * @param role           {@link Role}
    * @throws DuplicateKeyException 입력받은 이메일에 대한 사용자가 이미 있을 경우
    */
   @Transactional
-  public void createAccount(AccountRequestDto accountRequest, String role)
+  public void createAccount(JoinRequestDto dto, String role)
       throws DuplicateKeyException {
-    boolean duplicated = this.userRepository.findByEmail(accountRequest.getEmail()).isPresent();
+    boolean duplicated = this.userRepository.findByEmail(dto.getEmail()).isPresent();
     if (duplicated) {
       throw new DuplicateKeyException("중복된 이메일입니다.");
     }
 
     this.userRepository.save(new User(
-            accountRequest.getEmail(),
-            passwordEncoder.encode(accountRequest.getPassword()),
-            Role.of(role)
+            dto.getEmail(),
+            passwordEncoder.encode(dto.getPassword()),
+            Role.of(role),
+            dto.getName(),
+            dto.getPhone()
     ));
   }
 

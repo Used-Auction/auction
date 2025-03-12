@@ -3,6 +3,7 @@ package com.example.auction.User.controller;
 
 import com.example.auction.Global.CommonResponseBody;
 import com.example.auction.User.dto.AccountRequestDto;
+import com.example.auction.User.dto.JoinRequestDto;
 import com.example.auction.User.dto.JwtAuthResponseDto;
 import com.example.auction.User.service.AccountService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,15 +38,15 @@ public class AccountController {
   /**
    * 회원가입.
    *
-   * @param accountRequestDto {@link AccountRequestDto}
+   * @param dto {@link AccountRequestDto}
    * @param role           권한
    * @return {@code ResponseEntity<CommonResponseBody<String>>}
    */
   @PostMapping("/join")
   public ResponseEntity<CommonResponseBody<String>> join(
-      @Valid @RequestBody AccountRequestDto accountRequestDto,
+      @Valid @RequestBody JoinRequestDto dto,
       @NotBlank @RequestParam String role) {
-    this.accountService.createAccount(accountRequestDto, role);
+    this.accountService.createAccount(dto, role);
 
     return ResponseEntity
         .status(HttpStatus.CREATED)
