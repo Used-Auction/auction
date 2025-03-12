@@ -40,7 +40,7 @@ public class AuctionResponseDto {
         return new AuctionResponseDto(
                 auction.getId(),
                 auction.getUserId(),
-                auction.getProduct().getId(),
+                auction.getProductId(),
                 auction.getMinPoint(),
                 auction.getStatus(),
                 auction.getExpiredAt(),

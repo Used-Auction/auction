@@ -1,10 +1,12 @@
 package com.example.auction.Product;
 
+import com.example.auction.Auth.UserDetailsImpl;
 import com.example.auction.Global.CommonResponseBody;
 import com.example.auction.Product.Dto.ProductRequestDto;
 import com.example.auction.Product.Dto.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -17,11 +19,12 @@ public class ProductController {
 
     @PostMapping("/add")
     public ResponseEntity<CommonResponseBody<ProductResponseDto>> addProduct(
-            @RequestBody ProductRequestDto requestDto
+            @RequestBody ProductRequestDto requestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
             ){
         return ResponseEntity.ok().
                 body(new CommonResponseBody<>("상품 등록",
-                        productService.addProduct(1L,requestDto)));
+                        productService.addProduct(userDetails.getUser().getId(),requestDto)));
     }
 
     @GetMapping("/{productId}")

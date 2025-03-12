@@ -20,9 +20,8 @@ public class Auction extends BaseEntity {
     @Column(nullable = false)
     private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    private Product product;
+    @Column(nullable = false)
+    private Long productId;
 
     @Column(nullable = false)
     private int minPoint;
@@ -36,9 +35,9 @@ public class Auction extends BaseEntity {
 
     public Auction (){}
 
-    public Auction (Long userId , Product product , AuctionRequestDto requestDto){
+    public Auction (Long userId , Long productId , AuctionRequestDto requestDto){
         this.userId = userId;
-        this.product = product;
+        this.productId = productId;
         this.minPoint = requestDto.getMinPoint();
         this.expiredAt = requestDto.getExpiredAt();
     }
