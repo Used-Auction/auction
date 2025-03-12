@@ -31,9 +31,12 @@ public class User{
 
     private String status;
 
-    public User(String email, String password, Role role) {
+    public User (String email, String password, Role role, String name, String phoneNumber) {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+
     }
 }
