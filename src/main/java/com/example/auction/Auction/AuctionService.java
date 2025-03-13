@@ -21,7 +21,12 @@ public class AuctionService {
     private final ProductRepository productRepository;
 
 
-
+    /**
+     * <p>경매 등록</p>
+     * @param loginUserId 로그인유저 식별자
+     * @param requestDto {@link AuctionRequestDto}
+     * @return AuctionResponseDto {@link AuctionResponseDto}
+     */
     public AuctionResponseDto aadAuction (Long loginUserId , AuctionRequestDto requestDto){
 
         validExpiredAt(requestDto.getExpiredAt());
