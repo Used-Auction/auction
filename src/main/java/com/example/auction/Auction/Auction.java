@@ -35,16 +35,16 @@ public class Auction extends BaseEntity {
 
     public Auction (){}
 
-    public Auction (Long userId , Long productId , AuctionRequestDto requestDto){
+    public Auction (Long userId , Long productId , AuctionRequestDto requestDto , LocalDateTime expiredAt){
         this.userId = userId;
         this.productId = productId;
         this.minPoint = requestDto.getMinPoint();
-        this.expiredAt = requestDto.getExpiredAt();
+        this.expiredAt = expiredAt;
     }
 
-    public void updateAuction(AuctionRequestDto requestDto){
+    public void updateAuction(AuctionRequestDto requestDto , LocalDateTime expiredAt){
         this.minPoint = requestDto.getMinPoint();
-        this.expiredAt = requestDto.getExpiredAt();
+        this.expiredAt = expiredAt;
     }
 
     public void expiredAuction(){
