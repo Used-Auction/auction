@@ -3,6 +3,7 @@ package com.example.auction.Point;
 
 import com.example.auction.Auction.Auction;
 import com.example.auction.Global.BaseEntity;
+import com.example.auction.User.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -18,9 +19,7 @@ public class Point extends BaseEntity {
     @Column(nullable = false)
     private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "auction_id", referencedColumnName = "id")
-    private Auction auction;
+    private Long auctionId;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
@@ -34,9 +33,9 @@ public class Point extends BaseEntity {
 
     public Point (){}
 
-    public Point (Long userId , Auction auction , PointReason reason , int  point , int totalPoint ){
+    public Point (Long userId , Long auctionId , PointReason reason , int  point , int totalPoint ){
         this.userId = userId;
-        this.auction = auction;
+        this.auctionId = auctionId;
         this.reason = reason;
         this.usePoint = point;
         this.totalPoint = totalPoint;

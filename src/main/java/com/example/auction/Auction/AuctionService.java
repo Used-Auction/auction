@@ -4,12 +4,14 @@ import com.example.auction.Auction.Dto.AuctionRequestDto;
 import com.example.auction.Auction.Dto.AuctionResponseDto;
 import com.example.auction.Global.error.errorcode.ErrorCode;
 import com.example.auction.Global.error.exception.CustomException;
-import com.example.auction.Product.Product;
 import com.example.auction.Product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +25,8 @@ public class AuctionService {
     public AuctionResponseDto aadAuction (Long loginUserId , AuctionRequestDto requestDto){
 
         validExpiredAt(requestDto.getExpiredAt());
-        Product findProduct = productRepository.findByIdOrElseThrow(requestDto.getProductId());
-        Auction auction = new Auction(loginUserId , findProduct , requestDto);
+        LocalDateTime expiredAt = getExpiredAtFromLocalDate(requestDto.getExpiredAt());
+        Auction auction = new Auction(loginUserId , requestDto.getProductId() , requestDto , expiredAt);
         auctionRepository.save(auction);
         return AuctionResponseDto.toDto(auction);
     }
@@ -32,12 +34,27 @@ public class AuctionService {
     /**
      * @param expiredAt 경매종료시간은 등록일 기준 3일 후부터 가능
      */
-    private static void validExpiredAt(LocalDateTime expiredAt) {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime minExpired = now.plusDays(3);
+    private static void validExpiredAt(LocalDate expiredAt) {
+        LocalDate now = LocalDate.now();
+        LocalDate minExpired = now.plusDays(3);
         if (expiredAt.isBefore(minExpired)){
             throw new CustomException(ErrorCode.EXPIRED_ERROR);
         }
+    }
+
+    /**
+     * 매일 23:59:59 scheduler 동작을 위한 LocalDate -> LocalDateTime 변환
+     * @param expiredAt 경매 만료기한
+     * @return LocalDateTime
+     */
+    public LocalDateTime getExpiredAtFromLocalDate(LocalDate expiredAt){
+        String expiredAtSt = expiredAt.toString();
+        return LocalDateTime.parse(expiredAtSt+" 23:59:59", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
+    @Transactional
+    public void expiredAuction(){
+        auctionRepository.expiredAuction(AuctionStatus.EXPIRED);
     }
   
 }

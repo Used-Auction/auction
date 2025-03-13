@@ -12,8 +12,8 @@ public enum ErrorCode {
     /* 400 BAD_REQUEST : 잘못된 요청 */
     BAD_REQUEST_RESOURCE(BAD_REQUEST, "잘못된 리소스 값을 입력했습니다."),
     EXPIRED_ERROR(BAD_REQUEST,"경매 만료기한은 등록일 기준 최소 3일 후부터 가능합니다."),
-    POINT_NOT_ENOUGH(BAD_REQUEST,"포인트가 충분하지 않습니다."),
-
+    POINT_NOT_ENOUGH(BAD_REQUEST,"포인트가 부족합니다."),
+    BID_NOT_ENOUGH(BAD_REQUEST,"입찰 포인트가 부족합니다."),
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
 
     /* 403 FORBIDDEN : 권한이 없음 */
@@ -24,6 +24,7 @@ public enum ErrorCode {
     PRODUCT_NOT_FOUND(NOT_FOUND,"해당 상품을 찾을 수 없습니다."),
     AUCTION_NOT_FOUND(NOT_FOUND,"해당 경매를 찾을 수 없습니다."),
     POINT_NOT_FOUND(NOT_FOUND,"해당 포인트를 찾을 수 없습니다."),
+    RECORD_NOT_FOUND(NOT_FOUND,"해당 기록을 찾을 수 없습니다."),
 
 
 

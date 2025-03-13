@@ -1,10 +1,9 @@
 package com.example.auction.Auction.Dto;
 
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 public class AuctionRequestDto {
@@ -13,6 +12,6 @@ public class AuctionRequestDto {
 
     private int minPoint;
 
-    private LocalDateTime expiredAt;
+    private LocalDate expiredAt;
 
 }
