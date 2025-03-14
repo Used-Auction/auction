@@ -14,10 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j(topic = "Security::UserController")
 @Controller
 @RequestMapping(value = "/users")
+
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping("/join")
+    public String join() {
+        return "join";
+    }
+
     /**
      * USER 권한으로 접근 테스트.
      *
