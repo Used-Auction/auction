@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j(topic = "Security::AdminController")
 @RestController
-@RequestMapping(value = "/admin")
+@RequestMapping(value = "/admins")
 @RequiredArgsConstructor
 public class AdminController {
 
