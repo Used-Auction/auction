@@ -2,10 +2,13 @@ package com.example.auction.Coupon;
 
 import com.example.auction.Coupon.Dto.CouponRequestDto;
 import com.example.auction.Coupon.Dto.CouponResponseDto;
-import com.example.auction.Global.error.errorcode.ErrorCode;
-import com.example.auction.Global.error.exception.CustomException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,6 +35,7 @@ public class CouponService {
         return CouponResponseDto.toDto(coupon);
     }
 
+
     /**
      * <p>쿠폰 단건 조회</p>
      * @param couponId 쿠폰 식별자
@@ -39,6 +43,34 @@ public class CouponService {
      */
     public CouponResponseDto getCoupon(Long couponId){
         return CouponResponseDto.toDto(couponRepository.findByIdOrElseThrow(couponId));
+    }
+
+
+
+
+    /**
+     * <p>관리자 발행 쿠폰 다건 조회</p>
+     * @param userId 쿠폰발행 관리자식별자
+     * @param page 조회페이지 번호 미입력시 defaultValue 설정
+     * @param size 조회페이지 크기 미입력시 defaultValue 설정
+     * @return Page<CouponResponseDto> {@link CouponResponseDto}
+     */
+    public Page<CouponResponseDto> getUserCoupon(Long userId , int page , int size){
+
+        Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Coupon> coupons = couponRepository.findAllByUserId(userId,pageable);
+        return coupons.map(coupon -> new CouponResponseDto(
+                coupon.getId(),
+                coupon.getUserId(),
+                coupon.getName(),
+                coupon.getImage(),
+                coupon.getAmount(),
+                coupon.getDiscountAmount(),
+                coupon.getStatus(),
+                coupon.getExpiredAt(),
+                coupon.getUpdatedAt(),
+                coupon.getCreatedAt()
+        ));
     }
 
 
@@ -51,4 +83,16 @@ public class CouponService {
         String expiredAtSt = expiredAt.toString();
         return LocalDateTime.parse(expiredAtSt+" 23:59:59", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
+
+    @Transactional
+    public void expiredCoupon(){
+        couponRepository.expiredCoupon(CouponStatus.EXPIRED);
+    }
+
+    public boolean validCoupon(Long couponId){
+        Coupon coupon = couponRepository.findByIdOrElseThrow(couponId);
+        return coupon.getStatus() != CouponStatus.EXPIRED;
+    }
+
+
 }

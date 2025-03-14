@@ -4,7 +4,5 @@ public enum CouponStatus {
 
     AVAILABLE,
 
-    USED,
-
     EXPIRED
 }
