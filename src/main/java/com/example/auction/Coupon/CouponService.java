@@ -17,8 +17,12 @@ public class CouponService {
 
     private final CouponRepository couponRepository;
 
-
-
+    /**
+     * <p>쿠폰 발행</p>
+     * @param longinUserId 로그인유저 식별자
+     * @param requestDto {@link CouponRequestDto}
+     * @return CouponResponseDto {@link CouponResponseDto}
+     */
     public CouponResponseDto issuedCoupon(Long longinUserId , CouponRequestDto requestDto){
 
         LocalDateTime expiredAt = getExpiredAtFromLocalDate(requestDto.getExpiredAt());
@@ -26,6 +30,15 @@ public class CouponService {
         coupon.setExpiredAt(expiredAt);
         couponRepository.save(coupon);
         return CouponResponseDto.toDto(coupon);
+    }
+
+    /**
+     * <p>쿠폰 단건 조회</p>
+     * @param couponId 쿠폰 식별자
+     * @return CouponResponseDto {@link CouponResponseDto}
+     */
+    public CouponResponseDto getCoupon(Long couponId){
+        return CouponResponseDto.toDto(couponRepository.findByIdOrElseThrow(couponId));
     }
 
 
