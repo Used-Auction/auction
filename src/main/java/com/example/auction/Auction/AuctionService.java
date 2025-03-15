@@ -40,12 +40,22 @@ public class AuctionService {
         return AuctionResponseDto.toDto(auction);
     }
 
-
+    /**
+     * <p>경매 단건 조회</p>
+     * @param auctionId 해당 경매식별자
+     * @return AuctionResponseDto {@link AuctionResponseDto}
+     */
     public AuctionResponseDto getAuction (Long auctionId){
         Auction findAuction = auctionRepository.findByIdOrElseThrow(auctionId);
         return AuctionResponseDto.toDto(findAuction);
     }
 
+    /**
+     * <p>경매 리스트 조회</p>
+     * @param page 조회할 페이지 번호
+     * @param size 조회할 페이지 크기
+     * @return Page<AuctionResponseDto> {@link AuctionResponseDto}
+     */
     public Page<AuctionResponseDto> getAuctionList(int page , int size){
         Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Auction> auctionPage = auctionRepository.findAll(pageable);
