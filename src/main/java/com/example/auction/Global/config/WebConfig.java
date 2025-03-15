@@ -63,6 +63,8 @@ public class WebConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(WHITE_LIST).permitAll()
+                                // 회원가입 & 로그인 페이지는 인증 없이 접근 가능
+                                .requestMatchers("/accounts/join", "/accounts/login").permitAll()
                                 // static 리소스 경로
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 // 일부 dispatch 타입

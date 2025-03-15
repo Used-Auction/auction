@@ -34,4 +34,7 @@ public class JwtAuthResponseDto {
     this.tokenAuthScheme = tokenAuthScheme;
     this.accessToken = accessToken;
   }
+  public String getToken() {
+    return this.accessToken; // getToken() 메서드 추가
+  }
 }

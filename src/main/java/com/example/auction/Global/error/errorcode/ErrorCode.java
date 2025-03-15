@@ -11,9 +11,10 @@ import static org.springframework.http.HttpStatus.*;
 public enum ErrorCode {
     /* 400 BAD_REQUEST : 잘못된 요청 */
     BAD_REQUEST_RESOURCE(BAD_REQUEST, "잘못된 리소스 값을 입력했습니다."),
-    EXPIRED_ERROR(BAD_REQUEST,"경매 만료기한은 등록일 기준 최소 3일 후부터 가능합니다."),
+    EXPIRED_SET_ERROR(BAD_REQUEST,"경매 만료기한은 등록일 기준 최소 3일 후부터 가능합니다."),
     POINT_NOT_ENOUGH(BAD_REQUEST,"포인트가 부족합니다."),
     BID_NOT_ENOUGH(BAD_REQUEST,"입찰 포인트가 부족합니다."),
+    EXPIRED_COUPON(BAD_REQUEST,"만료된 쿠폰입니다."),
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
 
     /* 403 FORBIDDEN : 권한이 없음 */

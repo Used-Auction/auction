@@ -43,7 +43,7 @@ public class AuctionService {
         LocalDate now = LocalDate.now();
         LocalDate minExpired = now.plusDays(3);
         if (expiredAt.isBefore(minExpired)){
-            throw new CustomException(ErrorCode.EXPIRED_ERROR);
+            throw new CustomException(ErrorCode.EXPIRED_SET_ERROR);
         }
     }
 
