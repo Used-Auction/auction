@@ -15,6 +15,7 @@ public enum ErrorCode {
     POINT_NOT_ENOUGH(BAD_REQUEST,"포인트가 부족합니다."),
     BID_NOT_ENOUGH(BAD_REQUEST,"입찰 포인트가 부족합니다."),
     EXPIRED_COUPON(BAD_REQUEST,"만료된 쿠폰입니다."),
+    EXIST_COUPON(BAD_REQUEST,"이미 발급 받은 쿠폰입니다."),
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
 
     /* 403 FORBIDDEN : 권한이 없음 */
