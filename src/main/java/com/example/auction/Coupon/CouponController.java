@@ -9,6 +9,7 @@ import com.example.auction.Global.CommonResponseBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNullApi;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,11 +41,10 @@ public class CouponController {
     @GetMapping("/list")
     public ResponseEntity<CommonResponseBody<Page<CouponResponseDto>>> getUserCoupon(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
+            @RequestParam(defaultValue = "10") int size
     ){
         return ResponseEntity.ok().body(new CommonResponseBody<>("관리자 발행쿠폰 리스트 조회",
-                couponService.getUserCoupon(userDetails.getUser().getId(),page,size)));
+                couponService.getUserCoupon(page,size)));
     }
 
 
