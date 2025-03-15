@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.NonNullApi;
+
 
 public interface CouponRepository extends JpaRepository<Coupon,Long> {
 
@@ -15,7 +18,8 @@ public interface CouponRepository extends JpaRepository<Coupon,Long> {
         return findById(id).orElseThrow(()->new CustomException(ErrorCode.RESOURCES_NOT_FOUND));
     }
 
-    Page<Coupon> findAllByUserId(Long userId, Pageable pageable);
+    @NonNull
+    Page<Coupon> findAll (@NonNull Pageable pageable);
 
     @Modifying
     @Query(value = "update Coupon c set c.status = :status where c.expiredAt < now()")

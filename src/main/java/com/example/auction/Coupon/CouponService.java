@@ -45,21 +45,17 @@ public class CouponService {
         return CouponResponseDto.toDto(couponRepository.findByIdOrElseThrow(couponId));
     }
 
-
-
-
     /**
      * <p>관리자 발행 쿠폰 다건 조회</p>
-     * @param userId 쿠폰발행 관리자식별자
      * @param page 조회페이지 번호 미입력시 defaultValue 설정
      * @param size 조회페이지 크기 미입력시 defaultValue 설정
      * @return Page<CouponResponseDto> {@link CouponResponseDto}
      */
-    public Page<CouponResponseDto> getUserCoupon(Long userId , int page , int size){
+    public Page<CouponResponseDto> getUserCoupon(int page , int size){
 
         Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.DESC, "createdAt"));
-        Page<Coupon> coupons = couponRepository.findAllByUserId(userId,pageable);
-        return coupons.map(coupon -> new CouponResponseDto(
+        Page<Coupon> couponPage = couponRepository.findAll(pageable);
+        return couponPage.map(coupon -> new CouponResponseDto(
                 coupon.getId(),
                 coupon.getUserId(),
                 coupon.getName(),

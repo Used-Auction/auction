@@ -6,6 +6,10 @@ import com.example.auction.Global.error.errorcode.ErrorCode;
 import com.example.auction.Global.error.exception.CustomException;
 import com.example.auction.Product.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +39,19 @@ public class AuctionService {
         auctionRepository.save(auction);
         return AuctionResponseDto.toDto(auction);
     }
+
+
+    public AuctionResponseDto getAuction (Long auctionId){
+        Auction findAuction = auctionRepository.findByIdOrElseThrow(auctionId);
+        return AuctionResponseDto.toDto(findAuction);
+    }
+
+    public Page<AuctionResponseDto> getAuctionList(int page , int size){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Auction> auctionPage = auctionRepository.findAll(pageable);
+        return auctionPage.map(AuctionResponseDto::toDto);
+    }
+
 
     /**
      * @param expiredAt 경매종료시간은 등록일 기준 3일 후부터 가능
