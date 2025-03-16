@@ -2,14 +2,15 @@ package com.example.auction.Auction;
 
 import com.example.auction.Auction.Dto.AuctionRequestDto;
 import com.example.auction.Global.BaseEntity;
-import com.example.auction.Product.Product;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @Table(name = "auction")
 public class Auction extends BaseEntity {
 
@@ -33,12 +34,17 @@ public class Auction extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime expiredAt;
 
-    public Auction (){}
-
     public Auction (Long userId , Long productId , AuctionRequestDto requestDto , LocalDateTime expiredAt){
         this.userId = userId;
         this.productId = productId;
         this.minPoint = requestDto.getMinPoint();
+        this.expiredAt = expiredAt;
+    }
+
+    public Auction (Long userId , Long productId , int minPoint , LocalDateTime expiredAt){
+        this.userId = userId;
+        this.productId = productId;
+        this.minPoint = minPoint;
         this.expiredAt = expiredAt;
     }
 
