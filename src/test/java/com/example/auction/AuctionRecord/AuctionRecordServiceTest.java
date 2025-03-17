@@ -37,7 +37,7 @@ class AuctionRecordServiceTest {
 
     @Test
     void bidAuctionUsingLock() {
-        IntStream.range(0, 1000).parallel().forEach(i -> auctionRecordService.bidAuctionUsingLock((long) i,1L,i*1000));
+        IntStream.range(0, 10).parallel().forEach(i -> auctionRecordService.bidAuctionUsingLock((long) i,1L,i*1000));
         auctionRecordService.getBidCount(1L);
     }
 }

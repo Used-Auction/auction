@@ -62,22 +62,19 @@ public class AuctionRecordService {
     public void bidAuctionUsingLock(Long userId , Long auctionId , int bidPoint) {
         RLock lock = redissonClient.getFairLock(LOCK_KEY);
         try {
-            boolean isLocked = lock.tryLock(10, 60, TimeUnit.SECONDS);
+            boolean isLocked = lock.tryLock(100, 60, TimeUnit.SECONDS);
             if (isLocked) {
                 Optional<AuctionRecord> optionalAuctionRecord = auctionRecordRepository.findByAuctionId(auctionId);
-                Auction findAuction = auctionRepository.findByIdOrElseThrow(auctionId);
-
                 // 첫 상위 입찰시
+                AuctionRecord auctionRecord;
                 if (optionalAuctionRecord.isEmpty()){
-                    AuctionRecord auctionRecord = new AuctionRecord(userId , auctionId , bidPoint);
-                    auctionRecord.incrementBidCount();
-                    auctionRecordRepository.save(auctionRecord);
+                    auctionRecord = new AuctionRecord(userId, auctionId, bidPoint);
                 }else {
-                    AuctionRecord auctionRecord = optionalAuctionRecord.get();
+                    auctionRecord = optionalAuctionRecord.get();
                     auctionRecord.setTopBid(userId,bidPoint);
-                    auctionRecord.incrementBidCount();
-                    auctionRecordRepository.save(auctionRecord);
                 }
+                auctionRecord.incrementBidCount();
+                auctionRecordRepository.save(auctionRecord);
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
