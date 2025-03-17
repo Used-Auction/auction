@@ -24,6 +24,8 @@ public class AuctionRecord extends BaseEntity {
     @Column(nullable = false)
     private int bidPoint;
 
+    private int bidCount = 0;
+
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private AuctionRecordStatus status = AuctionRecordStatus.BIDDING;
@@ -40,9 +42,16 @@ public class AuctionRecord extends BaseEntity {
         this.status = AuctionRecordStatus.END;
     }
 
+    public void initBidPoint(){
+        this.bidPoint = 0;
+    }
     public void setTopBid(Long userId , int bidPoint){
         this.userId = userId;
         this.bidPoint = bidPoint;
+    }
+
+    public void incrementBidCount(){
+        this.bidCount++;
     }
 
 }
