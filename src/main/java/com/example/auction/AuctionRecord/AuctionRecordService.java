@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -62,19 +63,22 @@ public class AuctionRecordService {
     public void bidAuctionUsingLock(Long userId , Long auctionId , int bidPoint) {
         RLock lock = redissonClient.getFairLock(LOCK_KEY);
         try {
-            boolean isLocked = lock.tryLock(100, 60, TimeUnit.SECONDS);
+            boolean isLocked = lock.tryLock(10, 60, TimeUnit.SECONDS);
             if (isLocked) {
                 Optional<AuctionRecord> optionalAuctionRecord = auctionRecordRepository.findByAuctionId(auctionId);
-                // 첫 상위 입찰시
                 AuctionRecord auctionRecord;
                 if (optionalAuctionRecord.isEmpty()){
                     auctionRecord = new AuctionRecord(userId, auctionId, bidPoint);
+                    auctionRecord.incrementBidCount();
+                    auctionRecordRepository.save(auctionRecord);
                 }else {
                     auctionRecord = optionalAuctionRecord.get();
-                    auctionRecord.setTopBid(userId,bidPoint);
+                    if (bidPoint > auctionRecord.getBidPoint()){
+                        auctionRecord.incrementBidCount();
+                        auctionRecord.setTopBid(userId,bidPoint);
+                        auctionRecordRepository.save(auctionRecord);
+                    }
                 }
-                auctionRecord.incrementBidCount();
-                auctionRecordRepository.save(auctionRecord);
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
