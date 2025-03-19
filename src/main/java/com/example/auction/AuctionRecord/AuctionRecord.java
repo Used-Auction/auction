@@ -45,6 +45,7 @@ public class AuctionRecord extends BaseEntity {
     public void initBidPoint(){
         this.bidPoint = 0;
     }
+
     public void setTopBid(Long userId , int bidPoint){
         this.userId = userId;
         this.bidPoint = bidPoint;
