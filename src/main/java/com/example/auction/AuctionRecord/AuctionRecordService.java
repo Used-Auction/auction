@@ -7,6 +7,8 @@ import com.example.auction.AuctionRecord.Dto.AuctionRecordResponseDto;
 import com.example.auction.Global.error.errorcode.ErrorCode;
 import com.example.auction.Global.error.exception.CustomException;
 import com.example.auction.Global.util.RedisBidPointRepository;
+import com.example.auction.Point.Point;
+import com.example.auction.Point.PointReason;
 import com.example.auction.Point.PointService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +47,6 @@ public class AuctionRecordService {
                 if (optionalAuctionRecord.isEmpty()){
                     pointService.bidPoint(userId,auctionId,bidPoint);
                     auctionRecord = new AuctionRecord(userId , auctionId , bidPoint);
-                    auctionRecord.incrementBidCount();
                     auctionRecordRepository.save(auctionRecord);
                     return AuctionRecordResponseDto.toDto(auctionRecord);
                 }
@@ -54,11 +55,11 @@ public class AuctionRecordService {
                 if (bidPoint < auctionRecord.getBidPoint()+1000){
                     throw new CustomException(ErrorCode.BID_NOT_ENOUGH);
                 }
+                pointService.refundPoint(auctionRecord.getUserId(),auctionRecord.getAuctionId(),auctionRecord.getBidPoint());
                 pointService.bidPoint(userId,auctionId,bidPoint);
-                auctionRecord.setTopBid(userId,bidPoint);
-                auctionRecord.incrementBidCount();
-                auctionRecordRepository.save(auctionRecord);
-                return AuctionRecordResponseDto.toDto(auctionRecord);
+                AuctionRecord newAuctionRecord = new AuctionRecord(userId,auctionId,bidPoint);
+                auctionRecordRepository.save(newAuctionRecord);
+                return AuctionRecordResponseDto.toDto(newAuctionRecord);
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -111,13 +112,4 @@ public class AuctionRecordService {
         log.info("bidCount : {}" , auctionRecord.getBidCount());
     }
 
-    private String setAuctionData(Long userId , int bidPoint){
-        return userId+":"+bidPoint;
-    }
-
-    public void modifyTopBid(Long auctionRecordId,Long userId,int bidPoint){
-        AuctionRecord auctionRecord = auctionRecordRepository.findByIdOrElseThrow(auctionRecordId);
-        Long previousBidder = auctionRecord.getUserId();
-
-    }
 }

@@ -17,7 +17,6 @@ import java.util.Optional;
 public class PointService {
 
     private final PointRepository pointRepository;
-    private final AuctionRepository auctionRepository;
 
     /**
      * <p>경매 입찰 포인트 계산</p>
@@ -26,7 +25,6 @@ public class PointService {
      * @param usePoint  사용된 point
      */
     public void bidPoint (Long loginUserId , Long auctionId , int usePoint){
-
         int totalPoint = lastTotalPoint(loginUserId)-usePoint;
         if (lastTotalPoint(loginUserId) < usePoint){
             throw new CustomException(ErrorCode.POINT_NOT_ENOUGH);
@@ -39,6 +37,13 @@ public class PointService {
         pointRepository.save(point);
     }
 
+    public void refundPoint (Long userId , Long auctionId , int refundPoint ){
+        int totalPoint = lastTotalPoint(userId);
+        Point point = addPoint(PointReason.BID_REFUND,userId,refundPoint);
+        point.setAuctionId(auctionId);
+        pointRepository.save(point);
+    }
+
     /**
      * <p>포인트 적립</p>
      * @param loginUserId 로그인유저식별자
@@ -46,12 +51,18 @@ public class PointService {
      * @return PointEarnResponseDto {@link PointEarnResponseDto}
      */
     public PointEarnResponseDto earnPoint (Long loginUserId , int earnPoint){
-
         Point point = addPoint(PointReason.EARN , loginUserId , earnPoint);
         pointRepository.save(point);
         return PointEarnResponseDto.toDto(point);
     }
 
+    /**
+     * <p>포인트 data 추가</p>
+     * @param pointReason 포인트 사유
+     * @param userId 해당유저 식별자
+     * @param addPoint 포인트
+     * @return Point entity {@link Point}
+     */
     public Point addPoint(PointReason pointReason , Long userId , int addPoint){
         int totalPoint = addPoint + lastTotalPoint(userId);
         return new Point(userId,pointReason,addPoint,totalPoint);
@@ -64,7 +75,6 @@ public class PointService {
      * @return int 해당 사용자의 마지막 total_point
      */
     public int lastTotalPoint(Long userId){
-
         Optional<Integer> lastTotalPoint = pointRepository.findByLastTotalPoint(userId);
         if (lastTotalPoint.isPresent()){
             int p = lastTotalPoint.get();
