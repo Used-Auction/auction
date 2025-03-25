@@ -47,10 +47,14 @@ public class PointService {
      */
     public PointEarnResponseDto earnPoint (Long loginUserId , int earnPoint){
 
-        int totalPoint = earnPoint + lastTotalPoint(loginUserId);
-        Point point = new Point(loginUserId,PointReason.EARN,earnPoint,totalPoint);
+        Point point = addPoint(PointReason.EARN , loginUserId , earnPoint);
         pointRepository.save(point);
         return PointEarnResponseDto.toDto(point);
+    }
+
+    public Point addPoint(PointReason pointReason , Long userId , int addPoint){
+        int totalPoint = addPoint + lastTotalPoint(userId);
+        return new Point(userId,pointReason,addPoint,totalPoint);
     }
 
 

@@ -3,6 +3,7 @@ package com.example.auction.AuctionRecord;
 import com.example.auction.Auction.Auction;
 import com.example.auction.Auction.AuctionRepository;
 import com.example.auction.Auction.AuctionService;
+import com.example.auction.AuctionRecord.Dto.AuctionRecordResponseDto;
 import com.example.auction.User.entity.Role;
 import com.example.auction.User.entity.User;
 import com.example.auction.User.repository.UserRepository;
@@ -46,9 +47,6 @@ class AuctionRecordServiceTest {
         }
         int userCount = (int) userRepository.count();
         System.out.println("user count : "+userCount);
-
-
-
     }
 
     @AfterEach
@@ -56,6 +54,8 @@ class AuctionRecordServiceTest {
         auctionRecordService.reset();
         userRepository.deleteAll();
     }
+
+
 
     @Test
     void bidAuctionUsingLock() {
