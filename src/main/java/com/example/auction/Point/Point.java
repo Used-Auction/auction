@@ -48,4 +48,8 @@ public class Point extends BaseEntity {
         this.totalPoint = totalPoint;
     }
 
+    public void setAuctionId(Long auctionId) {
+        this.auctionId = auctionId;
+    }
+
 }
