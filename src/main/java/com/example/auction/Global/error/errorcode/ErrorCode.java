@@ -13,7 +13,7 @@ public enum ErrorCode {
     BAD_REQUEST_RESOURCE(BAD_REQUEST, "잘못된 리소스 값을 입력했습니다."),
     EXPIRED_SET_ERROR(BAD_REQUEST,"경매 만료기한은 등록일 기준 최소 3일 후부터 가능합니다."),
     POINT_NOT_ENOUGH(BAD_REQUEST,"포인트가 부족합니다."),
-    BID_NOT_ENOUGH(BAD_REQUEST,"입찰 포인트가 부족합니다."),
+    BID_NOT_ENOUGH(BAD_REQUEST,"이전 입찰 포인트보다 최소 1000포인트 이상 입찰해야합니다."),
     EXPIRED_COUPON(BAD_REQUEST,"만료된 쿠폰입니다."),
     EXIST_COUPON(BAD_REQUEST,"이미 발급 받은 쿠폰입니다."),
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */

@@ -29,35 +29,46 @@ public class AuctionRecordService {
     private final RedissonClient redissonClient;
     private static final String LOCK_KEY = "bidLock";
 
-
-
     @Transactional
     public AuctionRecordResponseDto bidAuction(Long userId , Long auctionId , int bidPoint ){
-
-        Optional<AuctionRecord> optionalAuctionRecord = auctionRecordRepository.findByAuctionId(auctionId);
-        Auction findAuction = auctionRepository.findByIdOrElseThrow(auctionId);
-
-        // 첫 상위 입찰시
-        if (optionalAuctionRecord.isEmpty()){
-            if (bidPoint < findAuction.getMinPoint()){
-                throw new CustomException(ErrorCode.BID_NOT_ENOUGH);
+        RLock lock = redissonClient.getFairLock(LOCK_KEY);
+        try {
+            boolean isLocked = lock.tryLock(10, 60, TimeUnit.SECONDS);
+            if (isLocked) {
+                Optional<AuctionRecord> optionalAuctionRecord = auctionRecordRepository.findByAuctionId(auctionId);
+                Auction findAuction = auctionRepository.findByIdOrElseThrow(auctionId);
+                AuctionRecord auctionRecord;
+                if (bidPoint < findAuction.getMinPoint()){
+                    throw new CustomException(ErrorCode.BID_NOT_ENOUGH);
+                }
+                // 첫 상위 입찰시
+                if (optionalAuctionRecord.isEmpty()){
+                    pointService.bidPoint(userId,auctionId,bidPoint);
+                    auctionRecord = new AuctionRecord(userId , auctionId , bidPoint);
+                    auctionRecord.incrementBidCount();
+                    auctionRecordRepository.save(auctionRecord);
+                    return AuctionRecordResponseDto.toDto(auctionRecord);
+                }
+                // 이후 상위입찰시
+                auctionRecord = optionalAuctionRecord.get();
+                if (bidPoint < auctionRecord.getBidPoint()+1000){
+                    throw new CustomException(ErrorCode.BID_NOT_ENOUGH);
+                }
+                pointService.bidPoint(userId,auctionId,bidPoint);
+                auctionRecord.setTopBid(userId,bidPoint);
+                auctionRecord.incrementBidCount();
+                auctionRecordRepository.save(auctionRecord);
+                return AuctionRecordResponseDto.toDto(auctionRecord);
             }
-            pointService.bidPoint(userId,auctionId,bidPoint);
-            AuctionRecord auctionRecord = new AuctionRecord(userId , auctionId , bidPoint);
-            auctionRecordRepository.save(auctionRecord);
-            return AuctionRecordResponseDto.toDto(auctionRecord);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            if (lock != null && lock.isHeldByCurrentThread()) {
+                lock.unlock();
+            }
         }
-        // 이후 상위입찰시
-        if (bidPoint < optionalAuctionRecord.get().getBidPoint()+1000){
-            throw new CustomException(ErrorCode.BID_NOT_ENOUGH);
-        }
-        pointService.bidPoint(userId,auctionId,bidPoint);
-        AuctionRecord auctionRecord = optionalAuctionRecord.get();
-        auctionRecord.setTopBid(userId,bidPoint);
-        auctionRecordRepository.save(auctionRecord);
-        return AuctionRecordResponseDto.toDto(auctionRecord);
+        return null;
     }
-
 
     @Transactional
     public void bidAuctionUsingLock(Long userId , Long auctionId , int bidPoint) {
@@ -104,9 +115,9 @@ public class AuctionRecordService {
         return userId+":"+bidPoint;
     }
 
+    public void modifyTopBid(Long auctionRecordId,Long userId,int bidPoint){
+        AuctionRecord auctionRecord = auctionRecordRepository.findByIdOrElseThrow(auctionRecordId);
+        Long previousBidder = auctionRecord.getUserId();
 
-
-
-    
-
+    }
 }
