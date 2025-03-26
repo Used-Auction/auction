@@ -14,7 +14,7 @@
     <p th:if="${param.error}" class="error-message">이메일 또는 비밀번호가 잘못되었습니다.</p>
 
     <!-- 로그인 폼 -->
-    <form action="/accounts/login" method="post" th:action="@{/accounts/login}">
+    <form action="/users/login" method="post" th:action="@{/accounts/login}">
         <input type="email" name="email" placeholder="이메일" required />
         <input type="password" name="password" placeholder="비밀번호" required />
 
