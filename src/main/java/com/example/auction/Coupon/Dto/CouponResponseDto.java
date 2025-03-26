@@ -3,10 +3,14 @@ package com.example.auction.Coupon.Dto;
 import com.example.auction.Coupon.Coupon;
 import com.example.auction.Coupon.CouponStatus;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@RequiredArgsConstructor
+@NoArgsConstructor(force = true)
 public class CouponResponseDto  {
 
     private final Long id;
@@ -28,19 +32,6 @@ public class CouponResponseDto  {
     private final LocalDateTime updatedAt;
 
     private final LocalDateTime createdAt;
-
-    public CouponResponseDto(Long id, Long userId, String name, String image, int amount, int discountAmount, CouponStatus status, LocalDateTime expiredAt, LocalDateTime updatedAt, LocalDateTime createdAt) {
-        this.id = id;
-        this.userId = userId;
-        this.name = name;
-        this.image = image;
-        this.amount = amount;
-        this.discountAmount = discountAmount;
-        this.status = status;
-        this.expiredAt = expiredAt;
-        this.updatedAt = updatedAt;
-        this.createdAt = createdAt;
-    }
 
     public static CouponResponseDto toDto(Coupon coupon){
         return new CouponResponseDto(

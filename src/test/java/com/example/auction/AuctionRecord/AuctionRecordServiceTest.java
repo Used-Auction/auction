@@ -2,15 +2,8 @@ package com.example.auction.AuctionRecord;
 
 import com.example.auction.Auction.Auction;
 import com.example.auction.Auction.AuctionRepository;
-import com.example.auction.Auction.AuctionService;
-import com.example.auction.AuctionRecord.Dto.AuctionRecordResponseDto;
-import com.example.auction.Point.Point;
-import com.example.auction.Point.PointReason;
 import com.example.auction.Point.PointRepository;
 import com.example.auction.Point.PointService;
-import com.example.auction.User.entity.Role;
-import com.example.auction.User.entity.User;
-import com.example.auction.User.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,8 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.stream.IntStream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class AuctionRecordServiceTest {

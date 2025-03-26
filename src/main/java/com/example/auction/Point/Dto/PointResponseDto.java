@@ -3,10 +3,14 @@ package com.example.auction.Point.Dto;
 import com.example.auction.Point.Point;
 import com.example.auction.Point.PointReason;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@RequiredArgsConstructor
+@NoArgsConstructor(force = true)
 public class PointResponseDto {
 
     private final Long id;
@@ -24,17 +28,6 @@ public class PointResponseDto {
     private final LocalDateTime createdAt;
 
     private final LocalDateTime updatedAt;
-
-    public PointResponseDto(Long id, Long userId, Long auctionId, PointReason reason, int usePoint, int totalPoint, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
-        this.userId = userId;
-        this.auctionId = auctionId;
-        this.reason = reason;
-        this.usePoint = usePoint;
-        this.totalPoint = totalPoint;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
 
     public static PointResponseDto toDto(Point point){
         return new PointResponseDto(
