@@ -93,13 +93,13 @@ public class PointService {
     }
 
     /**
-     * <p>유저 포인트내역 리스트 조회</p>
+     * <p>유저 포인트내역 조회</p>
      * @param userId 유저식별자
      * @param page 조회할 페이지 번호 (미입력시 defaultValue = "0")
      * @param size 조회할 페이지 크기 (미입력시 defaultValue = "10")
      * @return Page<PointResponseDto>
      */
-    public Page<PointResponseDto> getPointList(Long userId , int page , int size){
+    public Page<PointResponseDto> getPointHistory(Long userId , int page , int size){
         Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Point> pointPage = pointRepository.findByUserId(userId,pageable);
         return pointPage.map(PointResponseDto::toDto);

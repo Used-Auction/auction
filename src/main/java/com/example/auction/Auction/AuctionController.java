@@ -66,6 +66,22 @@ public class AuctionController {
     }
 
     /**
+     * <p>해당 경매 입찰내역 리스트 조회</p>
+     * @param auctionId 경매 식별자
+     * @param page 조회할 페이지 번호 (미입력시 defaultValue = "0")
+     * @param size 조회할 페이지 크기 (미입력시 defaultValue = "10")
+     * @return Page<AuctionRecordResponseDto>
+     */
+    @GetMapping("/{auctionId}/history")
+    public ResponseEntity<CommonResponseBody<Page<AuctionRecordResponseDto>>> getAuctionHistory(
+            @PathVariable Long auctionId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size){
+        return ResponseEntity.ok().body(new CommonResponseBody<>("해당 경매 입찰내역 리스트 조회",
+                auctionRecordService.getAuctionHistory(auctionId,page,size)));
+    }
+
+    /**
      * <p>경매 단건 조회</p>
      * @param auctionId 조회할 경매식별자
      * @return AuctionResponseDto {@link AuctionResponseDto}
