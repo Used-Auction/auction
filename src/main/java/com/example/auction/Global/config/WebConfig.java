@@ -48,7 +48,7 @@ public class WebConfig {
     /**
      * 화이트 리스트.
      */
-    private static final String[] WHITE_LIST = {"/accounts/login", "/accounts/join", "/favicon.ico",
+    private static final String[] WHITE_LIST = {"/accounts/login", "/accounts/join", "/users/join", "/users/login", "/favicon.ico",
             "/error"};
 
     /**
