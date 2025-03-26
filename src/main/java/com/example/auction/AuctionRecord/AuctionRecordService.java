@@ -31,6 +31,13 @@ public class AuctionRecordService {
     private final RedissonClient redissonClient;
     private static final String LOCK_KEY = "bidLock";
 
+    /**
+     * <p>경매 입찰</p>
+     * @param userId 유저 식별자
+     * @param auctionId 경매 식별자
+     * @param bidPoint 경매 입찰 포인트
+     * @return AuctionRecordResponseDto {@link AuctionRecordResponseDto}
+     */
     @Transactional
     public AuctionRecordResponseDto bidAuction(Long userId , Long auctionId , int bidPoint ){
         RLock lock = redissonClient.getFairLock(LOCK_KEY);
