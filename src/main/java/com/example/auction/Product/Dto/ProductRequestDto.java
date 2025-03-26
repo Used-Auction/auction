@@ -1,13 +1,16 @@
 package com.example.auction.Product.Dto;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public class ProductRequestDto {
 
-    private String name;
+    private final String name;
 
-    private String content;
+    private final String content;
 
-    private String image;
+    private final String image;
+
 }

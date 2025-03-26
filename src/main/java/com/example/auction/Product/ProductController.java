@@ -25,8 +25,8 @@ public class ProductController {
      */
     @PostMapping("/add")
     public ResponseEntity<CommonResponseBody<ProductResponseDto>> addProduct(
-            @RequestBody ProductRequestDto requestDto,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestBody ProductRequestDto requestDto
             ){
         return ResponseEntity.ok().
                 body(new CommonResponseBody<>("상품 등록",
