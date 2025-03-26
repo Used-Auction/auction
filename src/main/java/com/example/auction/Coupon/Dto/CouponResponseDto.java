@@ -14,23 +14,14 @@ import java.time.LocalDateTime;
 public class CouponResponseDto  {
 
     private final Long id;
-
     private final Long userId;
-
     private final String name;
-
     private final String image;
-
     private final int amount;
-
     private final int discountAmount;
-
     private final CouponStatus status;
-
     private final LocalDateTime expiredAt;
-
     private final LocalDateTime updatedAt;
-
     private final LocalDateTime createdAt;
 
     public static CouponResponseDto toDto(Coupon coupon){

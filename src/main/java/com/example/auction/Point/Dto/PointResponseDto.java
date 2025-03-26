@@ -14,19 +14,12 @@ import java.time.LocalDateTime;
 public class PointResponseDto {
 
     private final Long id;
-
     private final Long userId;
-
     private final Long auctionId;
-
     private final PointReason reason;
-
     private final int usePoint;
-
     private final int totalPoint;
-
     private final LocalDateTime createdAt;
-
     private final LocalDateTime updatedAt;
 
     public static PointResponseDto toDto(Point point){

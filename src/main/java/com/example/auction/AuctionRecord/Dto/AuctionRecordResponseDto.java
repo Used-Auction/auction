@@ -14,17 +14,11 @@ import java.time.LocalDateTime;
 public class AuctionRecordResponseDto {
 
     private final Long id;
-
     private final Long userId;
-
     private final Long auctionId;
-
     private final AuctionRecordStatus status;
-
     private final int bidPoint;
-
     private final LocalDateTime createdAt;
-
     private final LocalDateTime updatedAt;
 
     public static AuctionRecordResponseDto toDto(AuctionRecord auctionRecord){

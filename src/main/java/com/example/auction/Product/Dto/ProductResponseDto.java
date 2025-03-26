@@ -14,19 +14,12 @@ import java.time.LocalDateTime;
 public class ProductResponseDto {
 
     private final Long id;
-
     private final Long userId;
-
     private final String name;
-
     private final String content;
-
     private final String image;
-
     private final ProductStatus status;
-
     private final LocalDateTime createdAt;
-
     private final LocalDateTime updatedAt;
 
     public static ProductResponseDto toDto(Product product){
