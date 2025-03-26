@@ -3,6 +3,8 @@ package com.example.auction.AuctionRecord;
 import com.example.auction.Auction.Auction;
 import com.example.auction.Global.error.errorcode.ErrorCode;
 import com.example.auction.Global.error.exception.CustomException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -14,5 +16,7 @@ public interface AuctionRecordRepository extends JpaRepository<AuctionRecord , L
    }
 
     Optional<AuctionRecord> findByAuctionId(Long auctionId);
+
+    Page<AuctionRecord> findByAuctionId(Long auctionId, Pageable pageable);
 
 }

@@ -44,19 +44,19 @@ public class PointController {
     }
 
     /**
-     * <p>유저 포인트내역 리스트</p>
+     * <p>유저 포인트내역 조회</p>
      * @param page 조회할 페이지 번호 (미입력시 defaultValue = "0")
      * @param size 조회할 페이지 크기 (미입력시 defaultValue = "10")
      * @param userDetails userDetails 유저 Principal 객체 {@link UserDetailsImpl}
      * @return Page<PointResponseDto>
      */
-    @GetMapping("/list")
-    public ResponseEntity<CommonResponseBody<Page<PointResponseDto>>> getPointList(
+    @GetMapping("/history")
+    public ResponseEntity<CommonResponseBody<Page<PointResponseDto>>> getPointHistory(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return ResponseEntity.ok().body(new CommonResponseBody<>("유저 포인트내역 리스트",
-                pointService.getPointList(userDetails.getUser().getId(),page,size)));
+        return ResponseEntity.ok().body(new CommonResponseBody<>("유저 포인트내역 조회",
+                pointService.getPointHistory(userDetails.getUser().getId(),page,size)));
     }
 
 }

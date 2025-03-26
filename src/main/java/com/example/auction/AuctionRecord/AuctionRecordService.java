@@ -14,6 +14,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -106,6 +110,19 @@ public class AuctionRecordService {
                 lock.unlock();
             }
         }
+    }
+
+    /**
+     * <p>해당 경매내역 리스트 조회</p>
+     * @param auctionId 경매 식별자
+     * @param page 조회할 페이지 번호 (미입력시 defaultValue = "0")
+     * @param size 조회할 페이지 크기 (미입력시 defaultValue = "10")
+     * @return Page<AuctionRecordResponseDto>
+     */
+    public Page<AuctionRecordResponseDto> getAuctionHistory(Long auctionId , int page , int size){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<AuctionRecord> auctionRecordPage = auctionRecordRepository.findByAuctionId(auctionId,pageable);
+        return auctionRecordPage.map(AuctionRecordResponseDto::toDto);
     }
 
     public void reset(){
