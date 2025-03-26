@@ -8,6 +8,10 @@ import com.example.auction.Point.Dto.PointEarnResponseDto;
 import com.example.auction.Point.Dto.PointResponseDto;
 import com.example.auction.User.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -37,8 +41,13 @@ public class PointService {
         pointRepository.save(point);
     }
 
+    /**
+     * <p>경매입찰 실패로인한 포인트 환불</>
+     * @param userId 유저 식별자
+     * @param auctionId 경매 식별자
+     * @param refundPoint 환불포인트
+     */
     public void refundPoint (Long userId , Long auctionId , int refundPoint ){
-        int totalPoint = lastTotalPoint(userId);
         Point point = addPoint(PointReason.BID_REFUND,userId,refundPoint);
         point.setAuctionId(auctionId);
         pointRepository.save(point);
@@ -81,5 +90,12 @@ public class PointService {
             return p;
         }
         return 0;
+    }
+
+
+    public Page<PointResponseDto> getPointList(Long userId , int page , int size){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Point> pointPage = pointRepository.findByUserId(userId,pageable);
+        return pointPage.map(PointResponseDto::toDto);
     }
 }
