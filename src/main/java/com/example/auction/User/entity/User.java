@@ -1,9 +1,22 @@
 package com.example.auction.User.entity;
 
 import com.example.auction.Global.BaseEntity;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+
 
 @Entity
 @Getter
@@ -11,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "user")
 public class User{
 
+    private static final URI KAKAO_USER_INFO_URI = null;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
