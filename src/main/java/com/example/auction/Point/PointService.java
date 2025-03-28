@@ -82,11 +82,7 @@ public class PointService {
      */
     public int lastTotalPoint(Long userId){
         Optional<Integer> lastTotalPoint = pointRepository.findByLastTotalPoint(userId);
-        if (lastTotalPoint.isPresent()){
-            int p = lastTotalPoint.get();
-            return p;
-        }
-        return 0;
+        return lastTotalPoint.orElse(0);
     }
 
     /**
