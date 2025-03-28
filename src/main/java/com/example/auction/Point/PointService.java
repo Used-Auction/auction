@@ -1,12 +1,9 @@
 package com.example.auction.Point;
 
-import com.example.auction.Auction.Auction;
-import com.example.auction.Auction.AuctionRepository;
 import com.example.auction.Global.error.errorcode.ErrorCode;
 import com.example.auction.Global.error.exception.CustomException;
 import com.example.auction.Point.Dto.PointEarnResponseDto;
 import com.example.auction.Point.Dto.PointResponseDto;
-import com.example.auction.User.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

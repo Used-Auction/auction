@@ -4,6 +4,7 @@ import com.example.auction.Auth.UserDetailsImpl;
 import com.example.auction.Global.CommonResponseBody;
 import com.example.auction.Product.Dto.ProductRequestDto;
 import com.example.auction.Product.Dto.ProductResponseDto;
+import jodd.net.HttpStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,7 +29,7 @@ public class ProductController {
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody ProductRequestDto requestDto
             ){
-        return ResponseEntity.ok().
+        return ResponseEntity.status(201).
                 body(new CommonResponseBody<>("상품 등록",
                         productService.addProduct(userDetails.getUser().getId(),requestDto)));
     }
