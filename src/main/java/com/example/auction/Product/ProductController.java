@@ -28,7 +28,7 @@ public class ProductController {
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody ProductRequestDto requestDto
             ){
-        return ResponseEntity.ok().
+        return ResponseEntity.status(201).
                 body(new CommonResponseBody<>("상품 등록",
                         productService.addProduct(userDetails.getUser().getId(),requestDto)));
     }
