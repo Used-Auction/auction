@@ -1,6 +1,7 @@
 package com.example.auction.OAuth.Controller;
 
 import com.example.auction.Global.CommonResponseBody;
+
 import com.example.auction.OAuth.Dto.KakaoLoginDto;
 import com.example.auction.OAuth.Dto.KakaoTokenDto;
 import com.example.auction.OAuth.Service.OAuthService;
@@ -13,9 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
-
-import java.util.HashMap;
 
 @Slf4j
 @RestController
@@ -45,5 +45,4 @@ public class OAuthController {
 
         return ResponseEntity.ok(new CommonResponseBody<>("login success", dto));
     }
-
 }
