@@ -1,25 +1,59 @@
 package com.example.auction.OAuth.Service;
 
+import com.example.auction.Auction.AuctionRepository;
+import com.example.auction.Global.util.AuthenticationScheme;
+import com.example.auction.Global.util.JwtProvider;
+import com.example.auction.OAuth.Dto.KakaoLoginDto;
 import com.example.auction.OAuth.Dto.KakaoTokenDto;
 import com.example.auction.OAuth.Dto.OAuthDto;
+import com.example.auction.OAuth.Entity.OAuth;
+import com.example.auction.OAuth.Repository.KakaoRepository;
+import com.example.auction.User.dto.JwtAuthResponseDto;
+import com.example.auction.User.entity.Role;
+import com.example.auction.User.entity.User;
+import com.example.auction.User.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+import java.util.Optional;
+
 @Service
+@Slf4j(topic = "Security::OAuthService")
 public class OAuthService {
 
+    @Autowired
+    private KakaoRepository kakaoRepository;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtProvider jwtProvider;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserRepository userRepository;
     private final String grantType = "authorization_code";
     private final String clientId;
     private final String redirectUri;
@@ -79,5 +113,66 @@ public class OAuthService {
         }
 
         return kakaoTokenDto;
+    }
+
+    public HashMap<String, Object> getKakaoUserInfo(String accessToken) {
+        HashMap<String, Object> userInfo= new HashMap<>();
+
+        // HTTP Header 생성
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + accessToken);
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        // HTTP 요청 보내기
+        HttpEntity<MultiValueMap<String, String>> kakaoUserInfoRequest = new HttpEntity<>(headers);
+        RestTemplate rt = new RestTemplate();
+        ResponseEntity<String> response = rt.exchange(
+                "https://kapi.kakao.com/v2/user/me",
+                HttpMethod.POST,
+                kakaoUserInfoRequest,
+                String.class
+        );
+
+        // responseBody에 있는 정보를 꺼냄
+        String responseBody = response.getBody();
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        try {
+            jsonNode = objectMapper.readTree(responseBody);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        Long id = jsonNode.get("id").asLong();
+        String nickname = jsonNode.get("properties").get("nickname").asText();
+
+        userInfo.put("id",id);
+        userInfo.put("nickname",nickname);
+
+        return userInfo;
+    }
+
+    public JwtAuthResponseDto login(KakaoLoginDto dto) {
+
+        String getEmail = dto.getId().toString();
+        Optional<User> optionalUser = this.userRepository.findByEmail(getEmail);
+       if (optionalUser.isEmpty()) {
+           this.userRepository.save(new User(
+                   getEmail,
+                   passwordEncoder.encode(getEmail),
+                   dto.getNickname()
+           ));
+       }
+       User user = this.userRepository.findByEmail(getEmail).get();
+        Authentication authentication = this.authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        user.getEmail(), getEmail)
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String accessToken = this.jwtProvider.generateToken(authentication);
+        log.info("토큰 생성: {}", accessToken);
+        return new JwtAuthResponseDto(AuthenticationScheme.BEARER.getName(), accessToken);
     }
 }

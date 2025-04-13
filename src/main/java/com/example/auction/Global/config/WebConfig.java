@@ -19,11 +19,16 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity // SecurityFilterChain 빈 설정을 위해 필요.
 @RequiredArgsConstructor
-public class WebConfig {
+public class WebConfig{
 
     /**
      * JWT 인증 Filter.
@@ -109,7 +114,20 @@ public class WebConfig {
                     ROLE_ADMIN > ROLE_USER
                     """);
     }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
 
+        config.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // 허용 origin
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowCredentials(true); // 쿠키 포함 허용
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return source;
+    }
     /**
      * h2-console 접속은 Spring Security를 거치지 않도록 설정.
      *
