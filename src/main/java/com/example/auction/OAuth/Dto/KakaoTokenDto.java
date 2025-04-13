@@ -1,8 +1,10 @@
 package com.example.auction.OAuth.Dto;
 
 import lombok.Data;
+import lombok.Getter;
 
 @Data
+@Getter
 public class KakaoTokenDto {
     private String access_token;
     private String token_type;

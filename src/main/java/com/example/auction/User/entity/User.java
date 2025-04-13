@@ -1,6 +1,8 @@
 package com.example.auction.User.entity;
 
 import com.example.auction.Global.BaseEntity;
+import com.example.auction.OAuth.Dto.KakaoLoginDto;
+import com.example.auction.OAuth.Entity.OAuth;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,5 +53,12 @@ public class User{
         this.role = role;
         this.name = name;
         this.phoneNumber = phoneNumber;
+    }
+
+    public User (String email, String password, String name) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.role = Role.USER;
     }
 }
